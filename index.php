@@ -58,7 +58,7 @@
                 <br> အစိမ်းရောင်ချယ်ထားသောနေ့များမှာ သက်သတ်လွတ် စားရပါမည်။ 
             </tr>
             <tr id='LL_table_header' class='table_header'>
-                <th> နေ့စွဲ </th><th> ပုတီးပတ်ရေ </th><th> ဂုဏ်တော် </th><th> အဆင့် </th>
+                <th> နေ့စွဲ </th><th> ဂုဏ်တော် </th><th> အဆင့် </th>
             </tr>
     ";
 
@@ -105,7 +105,6 @@
 
         $MainTableRow .= ">";
         $MainTableRow .= "<td id='date-" . ($i+1) . "'>". date("j F Y (l)",$DisplayDate) ."</td>";
-        $MainTableRow .= "<td>". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ."</td>";
         $MainTableRow .= "<td>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0] ." ". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ." ပတ် </td>";
         $MainTableRow .= "<td> အဆင့် " . $MMNums[(int)($i/9)+1] ." - ". $MMNums[(int)($i%9)+1] ." ရက်</td>";
         $MainTableRow .= "</tr>";
