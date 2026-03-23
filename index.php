@@ -55,7 +55,6 @@
             <tr> <td colspan=4> 
                 အစနေ့ - ". date("j F Y (l)", $StartDate) ."
                 <br> <span class='bright-font-green'>  ယနေ့ - ". date("j F Y (l)", $Today) ."</span>
-                <br> <span id='step-day'></span>
                 <br> အောင်မြင်မည့်နေ့ - ". date("j F Y (l)", $DeterminationEndDate) . "
                 <br> အစိမ်းရောင်ချယ်ထားသောနေ့များမှာ သက်သတ်လွတ် စားရပါမည်။ 
             </tr>
