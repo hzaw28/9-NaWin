@@ -47,9 +47,8 @@
 
     $MiniTable = "<table id='MiniTable' class='table'><tbody>
         <tr><td>
-            <u> ယနေ့ </u><br> ". date("j F Y (l)", $Today) ."
-            <br><br>
-    ";
+            <u> ယနေ့ </u>
+            <br>". date("j F Y (l)", $Today);
 
     $MainTable = "<table id='MainTable' class='table'><tbody>
             <tr> <td colspan=4> 
@@ -63,9 +62,11 @@
             </tr>
     ";
 
+    $TodayLevel = "<br>";
     $TodayCycleCount = "<u> ယနေ့ ပုတီးပတ် </u>";
     $TomorrowCycleCount = "<u> မနက်ဖြန် ပုတီးပတ် </u>";
-    $VegetarianRow = "";
+    $VegetarianRow = "<u> လာမည့် သက်သတ်လွတ်နေ့ </u>";
+    $VegetarianRowSpecialNote = "";
     $NoMoreVegetarianDays = strtotime('5 day',$Today) > $DeterminationEndDate;
     $TodayCycleMeaning = "";
     for ($i = 0; $i < 81; ++$i){
@@ -73,31 +74,32 @@
         $MainTableRow = "";
         $MainTableRow .= "<tr";
         if ((int)$i%9 == 4) {
-            $MainTableRow .= " class='highlight-green'";
+            if ($DisplayDate == $Today) {$MainTableRow .= " class='highlight-green bright-font-orange'";}
+            else {$MainTableRow .= " class='highlight-green'";}
 
-            if (($Today < $DisplayDate) && ((strtotime('9 days',$Today) >= $DisplayDate))) {$VegetarianRow .= "<u> လာမည့် သက်သတ်လွတ်နေ့ </u><br>". date("j F Y (l)",$DisplayDate);}
+            if (($Today < $DisplayDate) && ((strtotime('9 days',$Today) >= $DisplayDate))) {$VegetarianRow .= "<br>". date("j F Y (l)",$DisplayDate);}
             if ($Today == $DisplayDate) {
-                $VegetarianRow .= "<span class='bright-font-green'> ယနေ့ သက်သတ်လွတ်စားရန်။ </span><br>";
-                if ($NoMoreVegetarianDays) {$VegetarianRow .= "<span class='bright-font-green'> ယနေ့ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
+                $VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> ယနေ့ သက်သတ်လွတ်စားရန်။ </span><br>";
+                if ($NoMoreVegetarianDays) {$VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> ယနေ့ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
             }
             elseif ($Tomorrow == $DisplayDate) {
                 $VegetarianRow .= "<br><span class='bright-font-green'> မနက်ဖြန် သက်သတ်လွတ်စားရန်။ </span><br>";
                 if ($NoMoreVegetarianDays || (strtotime('6 day',$Today) > $DeterminationEndDate)) {$VegetarianRow .= "<span class='bright-font-green'> မနက်ဖြန်ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
             }
-            
         }
 
         // Debug
         // echo "today:". $Today . " | display:". $DisplayDate . " | tomorrow:". $Tomorrow . " <br> ";
         if ($DisplayDate == $Today) {
-            $MainTableRow .= " class='bright-font-green'";
-            $TodayCycleCount .= "<br>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0] ." ". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ." ပတ်";
+            $MainTableRow .= " class='bright-font-orange'";
+            $TodayLevel .= "<span class='bright-font-orange'> အဆင့် " . $MMNums[(int)($i/9)+1] ." - ". $MMNums[(int)($i%9)+1] ." ရက် </span>";
+            $TodayCycleCount .= "<br><span class='bright-font-orange bold-font larger-font'>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0] ." ". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ." ပတ် </span>";
             if ($Today == $DeterminationEndDate) {$TodayCycleCount .= "<br><span class='bright-font-green'> ယနေ့ပြီးလျှင် အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
             $TodayCycleMeaning = "<tr><td><i>". trim($GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0]) ."</i><br>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][1] ."</td></tr>";
         }
         
         if ($DisplayDate == $Tomorrow) {
-            $TomorrowCycleCount .= "<br>" . $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0] ." ". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ." ပတ်";
+            $TomorrowCycleCount .= "<br><span class='bright-font-orange'>" . $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0] ." ". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ." ပတ် </span>";
             if ($Tomorrow == $DeterminationEndDate) {$TomorrowCycleCount .= "<br><span class='bright-font-green'> မနက်ဖြန်ပြီးလျှင် အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
         }
 
@@ -117,8 +119,10 @@
     elseif ($Tomorrow > $DeterminationEndDate) {$TomorrowCycleCount .= "<br><span class='bright-font-green'> အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
     if (strlen($VegetarianRow) == 0){$VegetarianRow .= "<u> လာမည့် သက်သတ်လွတ်နေ့ </u><br><span class='bright-font-green'> သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
 
-    $MiniTable .= "<span class='bright-font-red'>" . $TodayCycleCount . "</span><br><br>";
+    $MiniTable .= $TodayLevel . "<br><br>";
+    $MiniTable .= $TodayCycleCount . "<br><br>";
     $MiniTable .= $TomorrowCycleCount . "<br><br>";
+    if (strlen($VegetarianRowSpecialNote) > 0){$VegetarianRow .= $VegetarianRowSpecialNote;}
     $MiniTable .= $VegetarianRow;
     $MiniTable .= $TodayCycleMeaning;
     $MiniTable .= "</td></tr></tbody></table>";
@@ -129,10 +133,6 @@
 <head>
     <title>၉ နဝင်း</title>
     <style>
-        @font-face {
-            font-family: "TharLon";
-            src: url(./TharLon.woff2) format("truetype");
-        }
         body {
             font-family: "TharLon", "Arial";
             font-size: auto;
@@ -174,11 +174,20 @@
         .highlight-green {
             background-color: green;
         }
+        .bold-font {
+            font-weight: bold;
+        }
+        .larger-font {
+            font-size: larger;
+        }
         .bright-font-yellow {
             color: yellow;
         }
         .bright-font-red {
             color: red;
+        }
+        .bright-font-orange {
+            color: orange;
         }
         .bright-font-green {
             color: lime;
