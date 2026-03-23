@@ -1,24 +1,29 @@
 <?php
-    // Default timezone ကိုထည့်ထားသည်။ ကိုယ်နေသည့် timezone ကိုမူတည်ပြီးပြောင်း
+
+    // ##################################### ဒါတွေကို လိုအပ်သလိုပြင်ပါ #########################################
+    
+    // Default timezone ကိုထည့်ထားသည်။ ကိုယ်နေသည့် timezone ကိုမူတည်ပြီးပြောင်းပါ
     date_default_timezone_set('America/New_York');
 
-    // **************************************************
-    // ဘယ်လိုပြမယ်ကြိုသိချင်လျှင် နောက်လာမည့် ရက်အရေအတွက်ကို ဒီမှာထည့် 
-    $AddDaysForSimulation = 0;
-    $Today = strtotime((string) date("Y-m-d"));
-    // **************************************************
+    // အဓိဋ္ဌာန် စဝင်တဲ့နေ့ကို ဒီမှာထည့်ပါ
+    $StartDate = "2026-02-02";
 
+    // ဘယ်လိုပြမယ်ကြိုသိချင်လျှင် နောက်လာမည့် ရက်အရေအတွက်ကို ဒီမှာထည့်ပါ
+    $AddDaysForSimulation = 0;
+
+    // ####################################################################################################
+    
     // အဓိဋ္ဌာန် စဝင်တဲ့နေ့
-    $StartDate = strtotime("2026-02-02");
+    $DeterminationStartDate = strtotime($StartDate);
     // အဓိဋ္ဌာန် ပြီးဆုံးမည့်
-    $DeterminationEndDate = strtotime("80 day", $StartDate);
+    $DeterminationEndDate = strtotime("80 day", $DeterminationStartDate);
 
     // ယနေ့
-    $Today = strtotime($AddDaysForSimulation." days", $Today);
+    $Today = strtotime($AddDaysForSimulation." days", (strtotime((string) date("Y-m-d"))));
     // မနက်ဖြန်
     $Tomorrow = strtotime("1 day", $Today);
 
-    // ဘုရား ဂုဏ်တော် ၉ ပါးကို output ထုတ်လို့လွယ်အောင် array ထဲထည့်
+    // ဘုရား ဂုဏ်တော် ၉ ပါးကို output ထုတ်လို့လွယ်အောင် array ထဲထည့်ထားသည်
     $GongDaw = [[null,null],
         ["အရဟံ","ကိလေသာကင်းစင်၍ အမြတ်ဆုံး ပုဂ္ဂိုလ်ဖြစ်ခြင်း၊ လူနတ်ဗြဟ္မာတို့၏ ပူဇော်အထူးကို ခံယူထိုက်တော်မူထိုက်သော မြတ်စွာဘုရား။"],
         ["သမ္မာသမ္ဗုဒ္ဓေါ","တရားအလုံးစုံကို သဗ္ဗညုတဉာဏ်ဖြင့် အလိုလိုသိခြင်း၊ ဉာဏ်ပညာအကြီးဆုံးပုဂ္ဂိုလ်ဖြစ်တော်မူသော မြတ်စွာဘုရား။"],
@@ -31,7 +36,7 @@
         ["ဘဂဝါ","ဘုန်းတော် ၆-ပါးနှင့် ပြည့်စုံတော်မူခြင်း၊ ဘုန်းတန်ခိုးအကြီးဆုံးပုဂ္ဂိုလ်ဖြစ်သော မြတ်စွာဘုရား။"]
     ];
 
-    // loop ပတ်နေရင်း မြန်မာလိုမြင်ချင်လို့ မြန်မာဂဏန်းတွေခေါ်လို့လွယ်အောင် array ထဲ အစဉ်လိုက်ထည့်
+    // loop ပတ်နေရင်း မြန်မာလိုမြင်ချင်လို့ မြန်မာဂဏန်းတွေခေါ်လို့လွယ်အောင် array ထဲ အစဉ်လိုက်ထည့်ထားသည်
     $MMNums = ['၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉'];
     $Cycles = [
         [2,9,4,7,5,3,6,1,8],
@@ -45,57 +50,55 @@
         [1,8,3,6,4,2,5,9,7]
     ];
 
-    $MiniTable = "<table id='MiniTable' class='table'><tbody>
-        <tr><td>
-            <u> ယနေ့ </u>
-            <br>". date("j F Y (l)", $Today);
-
-    $MainTable = "<table id='MainTable' class='table'><tbody>
+    // main table တည်ဆောက်
+    $MainTable = "<table id='MainTable' class='table hidden'><tbody>
             <tr> <td colspan=4> 
-                အစနေ့ - ". date("j F Y (l)", $StartDate) ."
+                အစနေ့ - ". date("j F Y (l)", $DeterminationStartDate) ."
                 <br> <span class='bright-font-green'>  ယနေ့ - ". date("j F Y (l)", $Today) ."</span>
                 <br> အောင်မြင်မည့်နေ့ - ". date("j F Y (l)", $DeterminationEndDate) . "
-                <br> အစိမ်းရောင်ချယ်ထားသောနေ့များမှာ သက်သတ်လွတ် စားရပါမည်။ 
+                <br> အပြာရောင်ချယ်ထားသောနေ့များမှာ သက်သတ်လွတ် စားရပါမည်။ 
             </tr>
             <tr id='LL_table_header' class='table_header'>
-                <th> နေ့စွဲ </th><th> ဂုဏ်တော် </th><th> အဆင့် </th>
+                <th> နေ့စွဲ </th><th> ဂုဏ်တော် ပုတီးပတ် </th><th> အဆင့် </th>
             </tr>
     ";
 
-    $TodayLevel = "<br>";
+    // main table တည်ဆောက်ရင်း တခါတည်း mini table အတွက်လိုအပ်တဲ့ အချက်အလက်တွေ စုထား
+    // mini table တည်ဆောက်ရန် လိုအပ်တဲ့အချက်အလက်တွေ
+    $TodayLevel = "";
     $TodayCycleCount = "<u> ယနေ့ ပုတီးပတ် </u>";
     $TomorrowCycleCount = "<u> မနက်ဖြန် ပုတီးပတ် </u>";
     $VegetarianRow = "<u> လာမည့် သက်သတ်လွတ်နေ့ </u>";
     $VegetarianRowSpecialNote = "";
-    $NoMoreVegetarianDays = strtotime('5 day',$Today) > $DeterminationEndDate;
     $TodayCycleMeaning = "";
+
     for ($i = 0; $i < 81; ++$i){
-        $DisplayDate = strtotime("$i day", $StartDate);
+        $DisplayDate = strtotime("$i day", $DeterminationStartDate);
         $MainTableRow = "";
         $MainTableRow .= "<tr";
         if ((int)$i%9 == 4) {
-            if ($DisplayDate == $Today) {$MainTableRow .= " class='highlight-green bright-font-orange'";}
-            else {$MainTableRow .= " class='highlight-green'";}
+            if ($DisplayDate == $Today) {$MainTableRow .= " class='highlight-darkblue bright-font-orange larger-font'";}
+            else {$MainTableRow .= " class='highlight-darkblue'";}
 
             if (($Today < $DisplayDate) && ((strtotime('9 days',$Today) >= $DisplayDate))) {$VegetarianRow .= "<br>". date("j F Y (l)",$DisplayDate);}
             if ($Today == $DisplayDate) {
-                $VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> ယနေ့ သက်သတ်လွတ်စားရန်။ </span><br>";
-                if ($NoMoreVegetarianDays) {$VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> ယနေ့ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
+                $VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> ယနေ့ သက်သတ်လွတ်စားရန်။ </span>";
+                if (strtotime('5 day',$Today) > $DeterminationEndDate) {$VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> ယနေ့ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
             }
             elseif ($Tomorrow == $DisplayDate) {
                 $VegetarianRow .= "<br><span class='bright-font-green'> မနက်ဖြန် သက်သတ်လွတ်စားရန်။ </span><br>";
-                if ($NoMoreVegetarianDays || (strtotime('6 day',$Today) > $DeterminationEndDate)) {$VegetarianRow .= "<span class='bright-font-green'> မနက်ဖြန်ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
+                if (strtotime('6 day',$Today) > $DeterminationEndDate) {$VegetarianRow .= "<span class='bright-font-green'> မနက်ဖြန်ပြီးလျှင် သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
             }
         }
 
         // Debug
         // echo "today:". $Today . " | display:". $DisplayDate . " | tomorrow:". $Tomorrow . " <br> ";
         if ($DisplayDate == $Today) {
-            $MainTableRow .= " class='bright-font-orange'";
-            $TodayLevel .= "<span class='bright-font-orange'> အဆင့် " . $MMNums[(int)($i/9)+1] ." - ". $MMNums[(int)($i%9)+1] ." ရက် </span>";
+            $MainTableRow .= " class='bright-font-orange larger-font'";
+            $TodayLevel .= "<br><span class='bright-font-orange'> အဆင့် " . $MMNums[(int)($i/9)+1] ." - ". $MMNums[(int)($i%9)+1] ." ရက် </span>";
             $TodayCycleCount .= "<br><span class='bright-font-orange bold-font larger-font'>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0] ." ". $MMNums[$Cycles[(int)$i/9][(int)$i%9]] ." ပတ် </span>";
             if ($Today == $DeterminationEndDate) {$TodayCycleCount .= "<br><span class='bright-font-green'> ယနေ့ပြီးလျှင် အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
-            $TodayCycleMeaning = "<tr><td><i>". trim($GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0]) ."</i><br>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][1] ."</td></tr>";
+            $TodayCycleMeaning = "<tr><td> <span class='bright-font-orange'>". trim($GongDaw[$Cycles[(int)$i/9][(int)$i%9]][0]) ."</span><br>". $GongDaw[$Cycles[(int)$i/9][(int)$i%9]][1] ."</td></tr>";
         }
         
         if ($DisplayDate == $Tomorrow) {
@@ -116,8 +119,13 @@
     if ($Today > $DeterminationEndDate) {$TodayCycleCount .= "<br><span class='bright-font-green'> အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
     if ($Today == $DeterminationEndDate) {$TomorrowCycleCount .= "<br><span class='bright-font-green'> ယနေ့ပြီးလျှင် အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
     elseif ($Tomorrow > $DeterminationEndDate) {$TomorrowCycleCount .= "<br><span class='bright-font-green'> အဓိဋ္ဌာန်အောင်မြင်ပါပြီ။ </span>";}
-    if (strlen($VegetarianRow) == 0){$VegetarianRow .= "<u> လာမည့် သက်သတ်လွတ်နေ့ </u><br><span class='bright-font-green'> သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
+    if (strtotime('4 day',$Today) > $DeterminationEndDate){$VegetarianRowSpecialNote .= "<br><span class='bright-font-green'> သက်သတ်လွတ်စားရန် မလိုတော့ပါ။ </span><br>";}
 
+    $MainTable .= "</tbody></table>";
+
+    // စုထားတဲ့ အချက်အလက်တွေနဲ့ mini table တည်ဆောက်
+    $MiniTable = "<table id='MiniTable' class='table'><tbody>";
+    $MiniTable .= "<tr><td><u> ယနေ့ </u><br>". date("j F Y (l)", $Today);
     $MiniTable .= $TodayLevel . "<br><br>";
     $MiniTable .= $TodayCycleCount . "<br><br>";
     $MiniTable .= $TomorrowCycleCount . "<br><br>";
@@ -125,7 +133,6 @@
     $MiniTable .= $VegetarianRow;
     $MiniTable .= $TodayCycleMeaning;
     $MiniTable .= "</td></tr></tbody></table>";
-    $MainTable .= "</tbody></table>";
 ?>
 
 <html>
@@ -133,7 +140,7 @@
     <title>၉ နဝင်း</title>
     <style>
         body {
-            font-family: "TharLon", "Arial";
+            font-family: "Arial";
             font-size: auto;
             background-color: black;
             color: antiquewhite;
@@ -170,14 +177,23 @@
         .table-break {
             height: 5px;
         }
-        .highlight-green {
-            background-color: green;
-        }
         .bold-font {
             font-weight: bold;
         }
         .larger-font {
             font-size: larger;
+        }
+        .highlight-green {
+            background-color: green;
+        }
+        .highlight-darkgreen {
+            background-color: darkgreen;
+        }
+        .highlight-blue {
+            background-color: blue;
+        }
+        .highlight-darkblue {
+            background-color: darkblue;
         }
         .bright-font-yellow {
             color: yellow;
@@ -190,6 +206,13 @@
         }
         .bright-font-green {
             color: lime;
+        }
+        .hidden {
+            display: none;
+        }
+        #MiniTable {
+            width: 100%;
+            font-size: 1.2rem;
         }
 
         @media only screen and (max-width: 980px) {
@@ -215,6 +238,18 @@
     <h2 id="LL_title" class="section_title"> ဟိန်းထက်ဇော် <br> ကိုးနဝင်း အဓိဋ္ဌာန် ဇယား </h2>
     <?php echo $MiniTable ?>
     <br>
+    <button id="ToggleButton"> Show/Hide the schedule table </button>
     <?php echo $MainTable ?>
+    <div><br><br><br></div>
 </body>
+<script>
+    // Get references to the button and the element to be toggled
+    const ToggleButton = document.getElementById("ToggleButton");
+    const MainTable = document.getElementById("MainTable");
+
+    // Add a click event listener to the button
+    ToggleButton.addEventListener("click", function() {
+        MainTable.classList.toggle("hidden");
+    });
+</script>
 </html>
